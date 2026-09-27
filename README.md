@@ -145,7 +145,7 @@ $env:GTS_DATA_DIR = "D:\GuitarTabData"
 
 ## 公网部署
 
-公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。前端地址：[guitar-tab-stitcher-dagdya985.pages.dev](https://guitar-tab-stitcher-dagdya985.pages.dev/)，后端健康检查：[Railway API](https://guitar-tab-stitcher-api-production.up.railway.app/api/health)。前端部署到 Cloudflare Pages；OpenCV/FastAPI 后端部署到 Railway 免费服务，配置见 `backend/railway.json` 和 `backend/Dockerfile`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。
+公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。预览地址：[GitHub Pages](https://dagdya985.github.io/guitar-tab-stitcher/)，也可访问 [Cloudflare Pages](https://guitar-tab-stitcher-dagdya985.pages.dev/)。后端健康检查：[Railway API](https://guitar-tab-stitcher-api-production.up.railway.app/api/health)。前端部署到 GitHub Pages 和 Cloudflare Pages；OpenCV/FastAPI 后端部署到 Railway 免费服务，配置见 `backend/railway.json` 和 `backend/Dockerfile`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。GitHub Pages 会在推送到 `main` 后由 `.github/workflows/deploy-pages.yml` 自动构建发布。
 
 1. 在 Railway 中创建服务，根目录选 `backend/`，使用其中的 Dockerfile 和 `railway.json`，健康检查路径为 `/api/health`。也可在仓库根目录运行 `railway up backend --path-as-root` 部署本地代码。
 2. 为 Railway 服务生成公网域名。构建前端时在 `frontend/` 目录设置 `VITE_API_ORIGIN` 为这个 HTTPS 地址（不带末尾 `/`），运行 `npm ci`、`npm run build`。
