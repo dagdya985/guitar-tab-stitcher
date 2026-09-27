@@ -145,14 +145,14 @@ $env:GTS_DATA_DIR = "D:\GuitarTabData"
 
 ## 公网部署
 
-公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。前端地址：[guitar-tab-stitcher-dagdya985.pages.dev](https://guitar-tab-stitcher-dagdya985.pages.dev/)。前端部署到 Cloudflare Pages；OpenCV/FastAPI 后端使用 Render Web Service，配置见 `render.yaml`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。
+公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。前端地址：[guitar-tab-stitcher-dagdya985.pages.dev](https://guitar-tab-stitcher-dagdya985.pages.dev/)。前端部署到 Cloudflare Pages；OpenCV/FastAPI 后端部署到 Railway 免费服务，配置见 `backend/railway.json` 和 `backend/Dockerfile`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。
 
-1. 在 Render 中以此仓库创建 Blueprint（`render.yaml`），或创建 Docker Web Service，根目录为仓库根目录，Dockerfile 为 `backend/Dockerfile`，上下文为 `backend/`。健康检查路径为 `/api/health`。
-2. 确认 Render 后端的实际公网地址。构建前端时在 `frontend/` 目录设置 `VITE_API_ORIGIN` 为这个 HTTPS 地址（不带末尾 `/`），运行 `npm ci`、`npm run build`。
+1. 在 Railway 中创建服务，根目录选 `backend/`，使用其中的 Dockerfile 和 `railway.json`，健康检查路径为 `/api/health`。也可在仓库根目录运行 `railway up backend --path-as-root` 部署本地代码。
+2. 为 Railway 服务生成公网域名。构建前端时在 `frontend/` 目录设置 `VITE_API_ORIGIN` 为这个 HTTPS 地址（不带末尾 `/`），运行 `npm ci`、`npm run build`。
 3. 在仓库根目录运行 `npx wrangler pages deploy frontend/dist --project-name guitar-tab-stitcher-dagdya985`。Pages 项目配置在 `wrangler.jsonc`。如使用 Cloudflare 的 Git 构建，构建命令为 `cd frontend && npm ci && npm run build`，输出目录为 `frontend/dist`，并在 Pages 环境变量中设置相同的 `VITE_API_ORIGIN`。
-4. 在 Render 将 `GTS_ALLOWED_ORIGINS` 设置为 Pages 的正式地址，多个地址用逗号分隔。前端开发代理无需配置该变量。
+4. 在 Railway 将 `GTS_ALLOWED_ORIGINS` 设置为 Pages 的正式地址，并设置 `GTS_MAX_UPLOAD_MB=100`。多个允许的前端地址用逗号分隔。前端开发代理无需配置该变量。
 
-Render 免费实例在无流量时会休眠，重启或重新部署会丢失其本地文件，因而上传视频、项目记录与识别结果都只适合临时使用；请及时下载导出结果。线上部署通过 `GTS_MAX_UPLOAD_MB=100` 把上传限制设为 100 MB；本地仍为 2 GB。长视频可能超出免费实例的内存或处理能力。
+Railway 免费额度有限，超出额度时服务可能停止。当前未配置持久化存储，服务重启或重新部署可能丢失上传视频、项目记录与识别结果；请及时下载导出结果。线上上传限制为 100 MB，本地仍为 2 GB。长视频可能超出免费实例的内存或处理能力。
 
 ## 常见问题与边界
 
