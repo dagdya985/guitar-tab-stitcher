@@ -145,7 +145,7 @@ $env:GTS_DATA_DIR = "D:\GuitarTabData"
 
 ## 公网部署
 
-公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。前端部署到 Cloudflare Pages；OpenCV/FastAPI 后端部署到 Render Web Service，配置见 `render.yaml`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。
+公开仓库：[dagdya985/guitar-tab-stitcher](https://github.com/dagdya985/guitar-tab-stitcher)。前端地址：[guitar-tab-stitcher-dagdya985.pages.dev](https://guitar-tab-stitcher-dagdya985.pages.dev/)。前端部署到 Cloudflare Pages；OpenCV/FastAPI 后端使用 Render Web Service，配置见 `render.yaml`。Pages 只负责静态网页，无法直接运行本项目的 Python 视频处理服务。
 
 1. 在 Render 中以此仓库创建 Blueprint（`render.yaml`），或创建 Docker Web Service，根目录为仓库根目录，Dockerfile 为 `backend/Dockerfile`，上下文为 `backend/`。健康检查路径为 `/api/health`。
 2. 确认 Render 后端的实际公网地址。构建前端时在 `frontend/` 目录设置 `VITE_API_ORIGIN` 为这个 HTTPS 地址（不带末尾 `/`），运行 `npm ci`、`npm run build`。

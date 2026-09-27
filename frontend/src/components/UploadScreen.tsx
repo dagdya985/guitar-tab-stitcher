@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { ArrowUpRight, FileVideo2, UploadCloud } from 'lucide-react'
 
 export default function UploadScreen({ onFile, busy }: { onFile: (file: File) => void; busy: boolean }) {
+  const cloud = Boolean(import.meta.env.VITE_API_ORIGIN)
   const input = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
   const choose = (file?: File) => { if (file) onFile(file) }
@@ -22,7 +23,9 @@ export default function UploadScreen({ onFile, busy }: { onFile: (file: File) =>
         <div><strong>{busy ? '正在上传视频…' : '将视频拖到这里'}</strong><span>或点击选择文件</span></div>
         <span className="drop-formats">MP4 / MOV / WEBM <ArrowUpRight size={15} /></span>
       </div>
-      <div className="landing-foot"><FileVideo2 size={16} /> 处理在本机服务中完成；长图可导出为 PNG、JPG 或 PDF。</div>
+      <div className="landing-foot"><FileVideo2 size={16} /> {cloud
+        ? '视频将上传至云端处理（限 100 MB）；请及时下载 PNG、JPG 或 PDF 结果。'
+        : '处理在本机服务中完成；长图可导出为 PNG、JPG 或 PDF。'}</div>
     </div>
     <div className="hero-score" aria-hidden="true">
       <div className="score-label">TAB / MOTION STUDY</div>
@@ -33,4 +36,3 @@ export default function UploadScreen({ onFile, busy }: { onFile: (file: File) =>
     </div>
   </main>
 }
-

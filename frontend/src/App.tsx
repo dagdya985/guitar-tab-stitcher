@@ -43,6 +43,8 @@ export default function App() {
   const upload = async (file: File) => {
     setError(''); setUploading(true)
     try {
+      const maxMb = import.meta.env.VITE_API_ORIGIN ? 100 : 2048
+      if (file.size > maxMb * 1024 * 1024) throw new Error(`视频超过 ${maxMb} MB 上限。`)
       const created = await api.create()
       const uploaded = await api.upload(created.id, file)
       localStorage.setItem('gts-project', uploaded.id)
