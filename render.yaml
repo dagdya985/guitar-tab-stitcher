@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: guitar-tab-stitcher-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: GTS_ALLOWED_ORIGINS
+        value: https://guitar-tab-stitcher-dagdya985.pages.dev
+      - key: GTS_MAX_UPLOAD_MB
+        value: "100"
