@@ -38,7 +38,7 @@ export default function App() {
   const setCurrent = (next: Project) => {
     if (next.status === 'completed' && project?.status !== 'completed') setSelectedId(Math.max(0, next.frames.length-1))
     setProject(next)
-    window.history.replaceState({}, '', `/?project=${next.id}`)
+    window.history.replaceState({}, '', `${import.meta.env.BASE_URL}?project=${next.id}`)
   }
   const upload = async (file: File) => {
     setError(''); setUploading(true)
@@ -59,7 +59,7 @@ export default function App() {
     catch (err) { setError((err as Error).message) }
   }
   const reset = () => {
-    localStorage.removeItem('gts-project'); window.history.replaceState({}, '', '/')
+    localStorage.removeItem('gts-project'); window.history.replaceState({}, '', import.meta.env.BASE_URL)
     setProject(null); setSelectedId(0); setError('')
   }
   const adjustByDrag = async (dx: number, dy: number) => {
